@@ -20,4 +20,4 @@ pip install -r requirements.txt
 (sleep 2 && open "http://127.0.0.1:5001") &
 
 # Inicia o servidor
-python app.py 
+python app.py

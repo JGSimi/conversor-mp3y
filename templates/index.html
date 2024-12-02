@@ -3,195 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YouTube para MP3</title>
+    <title>Conversor YouTube MP3</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f5f7ff',
+                            100: '#ebf0ff',
+                            200: '#ced9ff',
+                            300: '#b1c2ff',
+                            400: '#7694ff',
+                            500: '#3b66ff',
+                            600: '#355ce6',
+                            700: '#2c4dbf',
+                            800: '#233d99',
+                            900: '#1d327d'
+                        }
+                    },
+                    animation: {
+                        'bounce-slow': 'bounce 3s linear infinite',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        :root {
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
-
-        @keyframes slideUp {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+        .gradient-bg {
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
         }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f7;
-            color: #1d1d1f;
-            line-height: 1.5;
-        }
-
-        .container {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 2rem;
-            border-radius: 20px;
-            box-shadow: var(--shadow-lg);
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(10px);
-            animation: slideUp 0.6s var(--bounce) forwards;
-        }
-
-        h1 {
-            color: #1d1d1f;
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-            font-weight: 700;
-        }
-
-        .input-group {
-            position: relative;
-            margin: 1.5rem 0;
-        }
-
-        input[type="text"] {
-            width: 100%;
-            padding: 1rem 1rem 1rem 2.5rem;
-            font-size: 1rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            background-color: #fff;
-            transition: var(--transition);
-            box-sizing: border-box;
-        }
-
-        input[type="text"]:focus {
-            outline: none;
-            border-color: #007AFF;
-            box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.1);
-        }
-
-        .input-group i {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #999;
-            transition: var(--transition);
-        }
-
-        input[type="text"]:focus + i {
-            color: #007AFF;
-        }
-
-        button {
-            width: 100%;
-            padding: 1rem;
-            font-size: 1rem;
-            font-weight: 600;
-            background: #007AFF;
-            color: white;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-            background: #0056b3;
-        }
-
-        button:active {
-            transform: translateY(0);
-        }
-
-        .error {
-            color: #ff3b30;
-            margin: 1rem 0;
-            padding: 1rem;
-            border-radius: 12px;
-            background: rgba(255, 59, 48, 0.1);
-            display: none;
-            animation: slideUp 0.3s var(--bounce) forwards;
-        }
-
-        .loading {
-            text-align: center;
-            margin: 1rem 0;
-            display: none;
-            animation: pulse 1.5s infinite;
-        }
-
-        .loading i {
-            color: #007AFF;
-            font-size: 2rem;
-        }
-
-        .result {
-            margin: 1rem 0;
-            padding: 1.5rem;
-            background: #f8f9fa;
-            border-radius: 12px;
-            display: none;
-            animation: slideUp 0.3s var(--bounce) forwards;
-        }
-
-        .result h3 {
-            margin: 0 0 1rem 0;
-            color: #1d1d1f;
-            font-size: 1.2rem;
-        }
-
-        .download-btn {
-            background: #34c759;
-        }
-
-        .download-btn:hover {
-            background: #248a3d;
-        }
-
-        @media (max-width: 600px) {
-            body {
-                padding: 1rem;
-            }
-
-            .container {
-                padding: 1.5rem;
-            }
-
-            h1 {
-                font-size: 2rem;
-            }
+            -webkit-backdrop-filter: blur(10px);
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <h1>YouTube para MP3</h1>
-        <form id="converter-form">
-            <div class="input-group">
-                <input type="text" id="url-input" placeholder="Cole o link do YouTube aqui" required>
-                <i class="fab fa-youtube"></i>
+<body class="gradient-bg min-h-screen flex items-center justify-center p-4">
+    <div class="glass w-full max-w-xl rounded-2xl shadow-2xl p-8 transform transition-all duration-300 hover:scale-[1.02]">
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-primary-400 mb-2">
+                Conversor YouTube MP3
+            </h1>
+            <p class="text-gray-600">Converta seus vídeos favoritos em áudio de alta qualidade</p>
+        </div>
+
+        <form id="converter-form" class="space-y-6">
+            <div class="relative group">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <i class="fab fa-youtube text-2xl text-red-500 group-hover:text-red-600 transition-colors duration-300"></i>
+                </div>
+                <input 
+                    type="text" 
+                    id="url-input" 
+                    class="w-full pl-12 pr-4 py-4 rounded-xl border-2 border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 outline-none transition-all duration-300 bg-white/50"
+                    placeholder="Cole o link do YouTube aqui"
+                    required
+                >
             </div>
-            <button type="submit">
+
+            <button 
+                type="submit" 
+                class="w-full bg-gradient-to-r from-primary-500 to-primary-600 text-white py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transform transition-all duration-300 hover:-translate-y-0.5 flex items-center justify-center gap-2"
+            >
                 <i class="fas fa-exchange-alt"></i>
                 Converter para MP3
             </button>
-            <div id="error" class="error"></div>
-            <div id="loading" class="loading">
-                <i class="fas fa-circle-notch fa-spin"></i>
-                <p>Convertendo seu vídeo...</p>
+
+            <div id="error" class="hidden">
+                <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-lg">
+                    <div class="flex items-center gap-2">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span class="error-message"></span>
+                    </div>
+                </div>
             </div>
-            <div id="result" class="result"></div>
+
+            <div id="loading" class="hidden">
+                <div class="flex flex-col items-center justify-center gap-4 py-8">
+                    <div class="animate-spin rounded-full h-12 w-12 border-4 border-primary-500 border-t-transparent"></div>
+                    <p class="text-gray-600">Convertendo seu vídeo...</p>
+                </div>
+            </div>
+
+            <div id="result" class="hidden">
+                <div class="bg-primary-50 rounded-xl p-6 space-y-4">
+                    <h3 class="text-lg font-semibold text-gray-800 video-title"></h3>
+                    <button 
+                        onclick="window.location.href=''" 
+                        class="download-btn w-full bg-green-500 text-white py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transform transition-all duration-300 hover:-translate-y-0.5 flex items-center justify-center gap-2"
+                    >
+                        <i class="fas fa-download"></i>
+                        Baixar MP3
+                    </button>
+                </div>
+            </div>
         </form>
     </div>
 
@@ -205,9 +121,9 @@
             const result = document.getElementById('result');
             
             // Reset
-            error.style.display = 'none';
-            result.style.display = 'none';
-            loading.style.display = 'block';
+            error.classList.add('hidden');
+            result.classList.add('hidden');
+            loading.classList.remove('hidden');
             
             try {
                 const response = await fetch('/convert', {
@@ -224,19 +140,16 @@
                     throw new Error(data.error || 'Erro ao converter vídeo');
                 }
 
-                result.innerHTML = `
-                    <h3>${data.title}</h3>
-                    <button onclick="window.location.href='/download/${data.filename}'" class="download-btn">
-                        <i class="fas fa-download"></i>
-                        Baixar MP3
-                    </button>
-                `;
-                result.style.display = 'block';
+                result.querySelector('.video-title').textContent = data.title;
+                result.querySelector('.download-btn').onclick = () => {
+                    window.location.href = `/download/${data.filename}`;
+                };
+                result.classList.remove('hidden');
             } catch (err) {
-                error.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${err.message}`;
-                error.style.display = 'block';
+                error.querySelector('.error-message').textContent = err.message;
+                error.classList.remove('hidden');
             } finally {
-                loading.style.display = 'none';
+                loading.classList.add('hidden');
             }
         });
     </script>
